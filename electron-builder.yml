@@ -1,0 +1,37 @@
+appId: app.plume.editor
+productName: Plume
+copyright: Copyright © 2026 Plume contributors
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**
+  - resources/**
+  - package.json
+extraResources:
+  - from: THIRD_PARTY_LICENSES
+    to: THIRD_PARTY_LICENSES
+asar: true
+npmRebuild: false
+win:
+  icon: build/icon.ico
+  target:
+    - nsis
+    - portable
+  fileAssociations:
+    - ext: [md, markdown, mdown, mkd]
+      name: Markdown
+      description: Document Markdown
+      icon: build/icon.ico
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Plume
+  artifactName: Plume-Setup-${version}.${ext}
+  installerLanguages: [fr_FR]
+  language: '1036'
+portable:
+  artifactName: Plume-${version}-portable.${ext}
