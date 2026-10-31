@@ -13,7 +13,7 @@ import {
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { bracketMatching, indentOnInput, syntaxHighlighting } from '@codemirror/language'
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
-import { classHighlighter } from '@lezer/highlight'
+import { plumeHighlighter } from '@/editor/highlight'
 import type { Node as PmNode } from '@milkdown/kit/prose/model'
 import { Selection, TextSelection, type Command } from '@milkdown/kit/prose/state'
 import type { EditorView, NodeView } from '@milkdown/kit/prose/view'
@@ -81,7 +81,7 @@ export class CodeView implements NodeView {
           indentOnInput(),
           bracketMatching(),
           closeBrackets(),
-          syntaxHighlighting(classHighlighter),
+          syntaxHighlighting(plumeHighlighter),
           this.lang.of([]),
           this.opts.of(this.optionExtensions()),
           CMView.updateListener.of((u) => this.forwardUpdate(u)),

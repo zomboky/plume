@@ -9,6 +9,7 @@ import { keymap } from '@milkdown/kit/prose/keymap'
 import { Plugin, PluginKey, TextSelection, type Command, type EditorState } from '@milkdown/kit/prose/state'
 import type { EditorView } from '@milkdown/kit/prose/view'
 import { configureMarkdown, markdownPlugins } from './markdown/core'
+import { remarkMathPlugin } from './markdown/extra-nodes'
 import { liveMarkers } from './plugins/live-markers'
 import { enterRules } from './plugins/enter-rules'
 import { autoPair } from './plugins/auto-pair'
@@ -107,10 +108,11 @@ export class WysiwygEditor {
   /** Markdown d'origine et document correspondant : rendu tel quel tant que rien n'a changé. */
   private base: { md: string; doc: PmNode } = { md: '', doc: null as never }
 
-  async init(root: HTMLElement, markdown: string, hooks: EditorHooks): Promise<void> {
+  async init(root: HTMLElement, markdown: string, hooks: EditorHooks, options = { inlineMath: false }): Promise<void> {
     const editor = Editor.make().config((ctx) => {
       configureMarkdown(ctx, markdown)
       ctx.set(rootCtx, root)
+      ctx.set(remarkMathPlugin.options.key, { singleDollarTextMath: options.inlineMath } as never)
     })
     for (const p of [enterRules, autoPair, arrows, liveMarkers, findPlugin, viewsPlugin(hooks)].flat()) editor.use(p)
     for (const p of markdownPlugins) editor.use(p)

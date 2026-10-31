@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http: plume-file:; font-src 'self' data:; media-src 'self' https: plume-file:; connect-src 'self' ws: http://localhost:*"
+    />
+    <title>Plume</title>
+  </head>
+  <body>
+    <div id="app">
+      <header id="titlebar">
+        <div class="app-icon" aria-hidden="true"></div>
+        <nav id="menubar" role="menubar"></nav>
+        <div id="title" class="title-text"></div>
+      </header>
+      <div id="main">
+        <aside id="sidebar" data-testid="sidebar"></aside>
+        <div id="sidebar-resizer" aria-hidden="true"></div>
+        <section id="workspace">
+          <div id="notice" hidden></div>
+          <div id="find-bar" hidden></div>
+          <div id="editor-scroll">
+            <div id="column"><div id="editor" data-testid="editor"></div></div>
+          </div>
+          <div class="margin-handle" data-side="left" data-testid="margin-left" title=""></div>
+          <div class="margin-handle" data-side="right" data-testid="margin-right" title=""></div>
+          <div id="source-host" hidden data-testid="source"></div>
+        </section>
+      </div>
+      <footer id="statusbar"></footer>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

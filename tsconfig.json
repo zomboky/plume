@@ -12,7 +12,7 @@
     "isolatedModules": true,
     "types": ["node"],
     "baseUrl": ".",
-    "paths": { "@shared/*": ["app/shared/*"] }
+    "paths": { "@shared/*": ["app/shared/*"], "@/*": ["app/renderer/src/*"] }
   },
   "include": ["app/**/*.ts", "tests/**/*.ts", "electron.vite.config.ts", "vitest.config.ts", "playwright.config.ts", "app/renderer/src/env.d.ts"]
 }

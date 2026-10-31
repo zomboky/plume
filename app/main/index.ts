@@ -133,7 +133,7 @@ function registerIpc(): void {
   handle('file:stat', async (_e, path: string) => {
     try {
       const s = await stat(path)
-      return { size: s.size, mtime: s.mtimeMs, created: s.birthtimeMs }
+      return { size: s.size, mtime: s.mtimeMs, created: s.birthtimeMs, dir: s.isDirectory() }
     } catch {
       return null
     }

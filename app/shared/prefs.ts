@@ -37,7 +37,7 @@ export interface Prefs {
   }
 }
 
-export const DEFAULT_WIDTH: ColumnWidth = { value: 860, unit: 'px' }
+export const DEFAULT_WIDTH: Exclude<ColumnWidth, 'full'> = { value: 860, unit: 'px' }
 
 export const DEFAULT_PREFS: Prefs = {
   locale: 'fr',

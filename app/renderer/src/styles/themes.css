@@ -1,0 +1,206 @@
+/* Variables de thème. « Dark 2026 » (défaut) reprend l'apparence de l'aperçu
+   Markdown de VS Code en thème sombre ; « Clair » et « Papier » sont des thèmes Plume. */
+
+:root,
+:root[data-theme='dark-2026'] {
+  --font-text: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, sans-serif;
+  --font-code: Consolas, 'Courier New', monospace;
+  --font-ui: 'Segoe UI', system-ui, sans-serif;
+  --text-size: 14px;
+  --line-height: 1.6;
+
+  --bg: #121314;
+  --fg: #bbbebf;
+  --fg-strong: #d4d7d8;
+  --fg-muted: #8b8e8f;
+  --link: #48a0c7;
+  --link-hover: #53a5ca;
+  --selection: #276782dd;
+  --heading-rule: rgba(255, 255, 255, 0.18);
+  --hr: rgba(255, 255, 255, 0.18);
+
+  --code-inline-fg: #8c8c8c;
+  --code-inline-bg: #262626;
+  --code-block-bg: #242526;
+  --code-block-border: #2a2b2c;
+  --code-fg: #d4d4d4;
+  --quote-border: #2a2b2c;
+  --quote-bg: #242526;
+  --quote-fg: #bbbebf;
+  --table-head-rule: rgba(255, 255, 255, 0.69);
+  --table-row-rule: rgba(255, 255, 255, 0.18);
+  --table-stripe: transparent;
+  --marker: #6e7273;
+  --mark-bg: rgba(255, 255, 255, 0.06);
+  --find-bg: rgba(234, 92, 0, 0.33);
+  --find-current-bg: rgba(81, 92, 106, 0.9);
+  --frontmatter-bg: #1b1c1d;
+
+  --hl-keyword: #569cd6;
+  --hl-type: #4ec9b0;
+  --hl-number: #b8d7a3;
+  --hl-string: #d69d85;
+  --hl-comment: #57a64a;
+  --hl-property: #9cdcfe;
+  --hl-function: #dcdcaa;
+  --hl-variable: #9cdcfe;
+  --hl-tag: #569cd6;
+  --hl-punctuation: #b4b4b4;
+  --hl-heading: #79c0ff;
+  --hl-quote: #7ee787;
+  --hl-list: #ffa657;
+  --hl-link: #a5d6ff;
+  --hl-meta: #8b949e;
+
+  --ui-bg: #191a1b;
+  --ui-fg: #bbbebf;
+  --ui-fg-muted: #8b8e8f;
+  --ui-hover: #2a2b2c;
+  --ui-active: #37393a;
+  --ui-border: #2a2b2c;
+  --menu-bg: #202122;
+  --menu-fg: #cccccc;
+  --menu-hover: #04395e;
+  --titlebar-bg: #191a1b;
+  --titlebar-fg: #bbbebf;
+  --accent: #3994bc;
+  --accent-fg: #ffffff;
+  --input-bg: #121314;
+  --scrollbar: rgba(121, 121, 121, 0.4);
+  --scrollbar-hover: rgba(100, 100, 100, 0.7);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+:root[data-theme='clair'] {
+  --font-text: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --text-size: 15px;
+  --line-height: 1.65;
+
+  --bg: #ffffff;
+  --fg: #2b2f33;
+  --fg-strong: #16191c;
+  --fg-muted: #6a737d;
+  --link: #1a6fb3;
+  --link-hover: #0b5a96;
+  --selection: #b9d6f2;
+  --heading-rule: #e4e7ea;
+  --hr: #dde1e5;
+
+  --code-inline-fg: #b93d63;
+  --code-inline-bg: #f2f3f5;
+  --code-block-bg: #f6f7f9;
+  --code-block-border: #e5e8eb;
+  --code-fg: #24292f;
+  --quote-border: #d4d9de;
+  --quote-bg: transparent;
+  --quote-fg: #5d656d;
+  --table-head-rule: #c9ced3;
+  --table-row-rule: #e4e7ea;
+  --table-stripe: #f8f9fa;
+  --marker: #a0a7ae;
+  --mark-bg: rgba(0, 0, 0, 0.04);
+  --find-bg: #ffe08a;
+  --find-current-bg: #ffb54d;
+  --frontmatter-bg: #f6f7f9;
+
+  --hl-keyword: #a626a4;
+  --hl-type: #0b7f8a;
+  --hl-number: #b35c00;
+  --hl-string: #2f7d32;
+  --hl-comment: #8a9199;
+  --hl-property: #1a6fb3;
+  --hl-function: #3b5bdb;
+  --hl-variable: #24292f;
+  --hl-tag: #c2185b;
+  --hl-punctuation: #57606a;
+  --hl-heading: #1a6fb3;
+  --hl-quote: #2f7d32;
+  --hl-list: #b35c00;
+  --hl-link: #1a6fb3;
+  --hl-meta: #8a9199;
+
+  --ui-bg: #f3f4f5;
+  --ui-fg: #33383d;
+  --ui-fg-muted: #7a8188;
+  --ui-hover: #e4e6e8;
+  --ui-active: #d8dbde;
+  --ui-border: #e1e3e5;
+  --menu-bg: #ffffff;
+  --menu-fg: #2b2f33;
+  --menu-hover: #dbe9f7;
+  --titlebar-bg: #f3f3f3;
+  --titlebar-fg: #333333;
+  --accent: #1a6fb3;
+  --accent-fg: #ffffff;
+  --input-bg: #ffffff;
+  --scrollbar: rgba(0, 0, 0, 0.18);
+  --scrollbar-hover: rgba(0, 0, 0, 0.32);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+}
+
+:root[data-theme='papier'] {
+  --font-text: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+  --text-size: 16px;
+  --line-height: 1.7;
+
+  --bg: #f7f2e8;
+  --fg: #3b342a;
+  --fg-strong: #241f18;
+  --fg-muted: #857a69;
+  --link: #8a4b22;
+  --link-hover: #6d3815;
+  --selection: #e8d6b4;
+  --heading-rule: #e2d8c5;
+  --hr: #d9cdb6;
+
+  --code-inline-fg: #7b3f20;
+  --code-inline-bg: #ede4d3;
+  --code-block-bg: #efe7d8;
+  --code-block-border: #e1d6c2;
+  --code-fg: #3b342a;
+  --quote-border: #c9b896;
+  --quote-bg: transparent;
+  --quote-fg: #6b5f4d;
+  --table-head-rule: #b9a888;
+  --table-row-rule: #e2d8c5;
+  --table-stripe: #f1ebdf;
+  --marker: #b3a68f;
+  --mark-bg: rgba(90, 60, 20, 0.05);
+  --find-bg: #f3d27a;
+  --find-current-bg: #e8a94a;
+  --frontmatter-bg: #efe7d8;
+
+  --hl-keyword: #8a3b8f;
+  --hl-type: #2d6f6a;
+  --hl-number: #a3541c;
+  --hl-string: #5b7a2a;
+  --hl-comment: #9a8f7c;
+  --hl-property: #375f8a;
+  --hl-function: #6b4c9a;
+  --hl-variable: #3b342a;
+  --hl-tag: #a33a3a;
+  --hl-punctuation: #6b5f4d;
+  --hl-heading: #8a4b22;
+  --hl-quote: #5b7a2a;
+  --hl-list: #a3541c;
+  --hl-link: #8a4b22;
+  --hl-meta: #9a8f7c;
+
+  --ui-bg: #efe8da;
+  --ui-fg: #4a4237;
+  --ui-fg-muted: #8a7f6d;
+  --ui-hover: #e4dbc9;
+  --ui-active: #d9cdb6;
+  --ui-border: #e0d6c3;
+  --menu-bg: #fbf8f2;
+  --menu-fg: #3b342a;
+  --menu-hover: #eadfc8;
+  --titlebar-bg: #ece6d9;
+  --titlebar-fg: #4a4237;
+  --accent: #8a4b22;
+  --accent-fg: #ffffff;
+  --input-bg: #fbf8f2;
+  --scrollbar: rgba(80, 60, 30, 0.2);
+  --scrollbar-hover: rgba(80, 60, 30, 0.35);
+  --shadow: 0 4px 16px rgba(60, 40, 10, 0.14);
+}

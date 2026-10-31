@@ -44,7 +44,7 @@ export interface PlumeApi {
   searchFolder(folder: string, query: string): Promise<SearchHit[]>
   revealInExplorer(path: string): Promise<void>
   trashFile(path: string): Promise<boolean>
-  statFile(path: string): Promise<{ size: number; mtime: number; created: number } | null>
+  statFile(path: string): Promise<{ size: number; mtime: number; created: number; dir: boolean } | null>
   // Préférences et récents
   getPrefs(): Promise<Prefs>
   setPrefs(patch: DeepPartial<Prefs>): Promise<Prefs>
