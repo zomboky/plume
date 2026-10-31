@@ -59,7 +59,7 @@ graph LR
   A --> B --> C
 ```
 
-***
+---
 
 ![logo](images/logo.png)
 

@@ -107,7 +107,7 @@ export const toggleFrontmatter: Command = (state, dispatch) => {
 
 export function createTable(schema: Schema, header: string[], bodyRows = 1): PmNode {
   const { table, table_header_row, table_row, table_header, table_cell, paragraph } = schema.nodes
-  const cell = (type: NodeType, text: string) => type.create(null, paragraph.create(null, text ? schema.text(text) : undefined))
+  const cell = (type: NodeType, text: string) => type.create({ alignment: null }, paragraph.create(null, text ? schema.text(text) : undefined))
   const head = table_header_row.create(
     null,
     header.map((h) => cell(table_header, h))
