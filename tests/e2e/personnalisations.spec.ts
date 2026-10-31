@@ -1,4 +1,4 @@
-// Les trois modifications demandées (AUDIT §11).
+// Les trois modifications demandées (cahier des charges §11).
 import { expect, test } from './fixtures'
 
 test.use({ openFile: 'complet.md' })
