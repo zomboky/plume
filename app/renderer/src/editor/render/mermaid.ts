@@ -7,13 +7,18 @@ let currentTheme = 'dark'
 
 export function setMermaidTheme(dark: boolean): void {
   currentTheme = dark ? 'dark' : 'default'
-  if (api) void api.then((m) => m.initialize({ startOnLoad: false, securityLevel: 'strict', theme: currentTheme as never }))
+  if (api) void api.then((m) => m.initialize(config()))
+}
+
+// Mermaid 12 utilise par défaut la disposition « elk », exclue de Plume (licence EPL-2.0).
+function config(): Parameters<MermaidApi['initialize']>[0] {
+  return { startOnLoad: false, securityLevel: 'strict', theme: currentTheme as never, layout: 'dagre' }
 }
 
 function load(): Promise<MermaidApi> {
   if (!api) {
     api = import('mermaid').then((mod) => {
-      mod.default.initialize({ startOnLoad: false, securityLevel: 'strict', theme: currentTheme as never })
+      mod.default.initialize(config())
       return mod.default
     })
   }

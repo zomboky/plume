@@ -155,3 +155,13 @@ test('lien, image, note de bas de page, citation et listes', async ({ plume }) =
   await p.locator('a').click()
   await expect(p.locator('.md-marker')).toHaveText(['[', '](https://example.com)'])
 })
+
+test.describe('fichier existant', () => {
+  test.use({ openFile: 'complet.md' })
+
+  test('diagramme Mermaid du fichier rendu (disposition dagre, sans elkjs)', async ({ plume }) => {
+    const preview = plume.win.locator('#editor .mermaid-preview')
+    await expect(preview.locator('svg')).toHaveCount(1, { timeout: 15_000 })
+    await expect(preview).not.toHaveClass(/has-error/)
+  })
+})
