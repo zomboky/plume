@@ -9,6 +9,7 @@ import type { UnsavedChoice } from '@shared/api'
 import { listMarkdownFiles, listTree, readMarkdown, searchFolder, writeMarkdown } from './files'
 import { configureDataDir } from './paths'
 import { addRecent, clearRecent, getPrefs, getRecent, setPrefs } from './store'
+import { checkNow, checkOnStartup, installIfRequested, notifyWindow, requestInstall } from './updater'
 
 const E2E = process.env.PLUME_E2E === '1'
 const TITLEBAR_HEIGHT = 30
@@ -56,6 +57,7 @@ function createWindow(openPath?: string): BrowserWindow {
   })
 
   win.once('ready-to-show', () => win.show())
+  win.webContents.on('did-finish-load', () => notifyWindow(win))
   win.webContents.setZoomFactor(prefs.view.zoom)
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (/^https?:|^mailto:/.test(url)) void shell.openExternal(url)
@@ -214,6 +216,9 @@ function registerIpc(): void {
   ipcMain.on('print', (_e, html: string) => {
     void withHtmlWindow(html, (w) => new Promise<void>((done) => w.webContents.print({ printBackground: true }, () => done())))
   })
+
+  handle('update:check', () => checkNow())
+  ipcMain.on('update:install', () => requestInstall())
 }
 
 /** Charge du HTML autonome dans une fenêtre cachée, le temps d'une opération. */
@@ -267,12 +272,14 @@ if (!gotLock) {
     let initial = fileArg(process.argv)
     if (initial && statSync(initial).isFile() && !/\.(md|markdown|mdown|mkd|txt)$/i.test(extname(initial))) initial = undefined
     createWindow(initial)
+    checkOnStartup()
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
   })
 
   app.on('window-all-closed', () => {
+    if (installIfRequested()) return
     if (process.platform !== 'darwin') app.quit()
   })
 }

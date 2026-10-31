@@ -81,6 +81,12 @@ export class PrefsPanel {
           select(p.locale, [['fr', 'Français'], ['en', 'English']], (v) => void this.set({ locale: v }).then(() => location.reload()), 'pref-locale')
       },
       {
+        cat: 'general',
+        label: 'prefs.checkUpdates',
+        hint: 'prefs.checkUpdatesHint',
+        render: checkbox((p) => p.updates.checkOnStartup, (v) => ({ updates: { checkOnStartup: v } }), 'pref-check-updates')
+      },
+      {
         cat: 'files',
         label: 'prefs.autoSave',
         render: checkbox((p) => p.files.autoSave, (v) => ({ files: { autoSave: v } }), 'pref-autosave')
@@ -171,6 +177,18 @@ export class PrefsPanel {
         }
       },
       { cat: 'appearance', label: 'prefs.width', hint: 'prefs.widthHint', render: (p) => this.widthControl(p.editor.width) },
+      {
+        cat: 'appearance',
+        label: 'prefs.columnAlign',
+        hint: 'prefs.columnAlignHint',
+        render: (p) =>
+          select(
+            p.editor.columnAlign,
+            [['center', t('prefs.columnAlignCenter')], ['left', t('prefs.columnAlignLeft')]],
+            (v) => void this.set({ editor: { columnAlign: v } }),
+            'pref-column-align'
+          )
+      },
       {
         cat: 'appearance',
         label: 'prefs.statusBar',

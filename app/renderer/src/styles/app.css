@@ -399,6 +399,15 @@ button {
   padding-right: 24px;
 }
 
+/* Colonne à gauche : collée au bord, le texte garde la marge intérieure fixe. */
+.column-left #column {
+  margin-left: 0;
+}
+
+.column-left .margin-handle[data-side='left'] {
+  display: none;
+}
+
 .typewriter-mode #column {
   padding-top: 50vh;
   padding-bottom: 50vh;
@@ -476,6 +485,7 @@ button {
 }
 
 .notice-close,
+.notice-action,
 .find-text-btn,
 .prefs-close,
 .prompt-buttons button,

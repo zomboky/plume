@@ -135,3 +135,61 @@ test('§11.3 marges réglables : glisser, double-clic, mémorisation', async ({ 
   await plume.win.locator('[data-testid=pref-width-value]').press('Enter')
   await expect.poll(() => (plume.readPrefs().editor as { width: unknown }).width).toEqual({ value: 50, unit: '%' })
 })
+
+test('colonne à gauche : poignée droite seule, mémorisation', async ({ plume }) => {
+  const { win } = plume
+  // Réglage dans les préférences (Apparence).
+  await win.keyboard.press('Control+,')
+  await win.locator('[data-testid=prefs-cat-appearance]').click()
+  await win.locator('[data-testid=pref-column-align]').selectOption('left')
+  await expect.poll(() => (plume.readPrefs().editor as { columnAlign: unknown }).columnAlign).toBe('left')
+  await win.locator('[data-testid=prefs-close]').click()
+
+  const column = win.locator('#column')
+  const area = (await win.locator('#editor-scroll').boundingBox())!
+  const before = (await column.boundingBox())!
+  expect(Math.abs(before.x - area.x)).toBeLessThan(2)
+  expect(before.width).toBeLessThanOrEqual(860)
+  await expect(win.locator('body')).toHaveClass(/column-left/)
+  await expect(win.locator('[data-testid=margin-left]')).toBeHidden()
+
+  // Glisser la poignée droite : seul le bord droit bouge.
+  const h = (await win.locator('[data-testid=margin-right]').boundingBox())!
+  await win.mouse.move(h.x + h.width / 2, h.y + 200)
+  await win.mouse.down()
+  await win.mouse.move(h.x + h.width / 2 - 200, h.y + 200, { steps: 5 })
+  await win.mouse.up()
+  const narrower = (await column.boundingBox())!
+  expect(Math.abs(narrower.x - area.x)).toBeLessThan(2)
+  expect(Math.abs(narrower.width - (before.width - 200))).toBeLessThan(6)
+  await expect.poll(() => (plume.readPrefs().editor as { width: { value: number } }).width.value).toBeCloseTo(narrower.width, -1)
+
+  // Jusqu'au bord droit : pleine largeur ; double-clic : retour.
+  const h2 = (await win.locator('[data-testid=margin-right]').boundingBox())!
+  await win.mouse.move(h2.x + h2.width / 2, h2.y + 200)
+  await win.mouse.down()
+  await win.mouse.move(area.x + area.width - 4, h2.y + 200, { steps: 8 })
+  await win.mouse.up()
+  await expect(win.locator('body')).toHaveClass(/is-full-width/)
+  await win.locator('[data-testid=margin-right]').dblclick()
+  await expect(win.locator('body')).not.toHaveClass(/is-full-width/)
+
+  // Menu Affichage : entrée cochée.
+  await win.locator('[data-testid=menu-view]').click()
+  await expect(win.locator('[data-testid="cmd-view.columnLeft"] .menu-check')).toHaveText('✓')
+  await win.keyboard.press('Escape')
+
+  // Mémorisé au redémarrage.
+  await plume.relaunch()
+  await expect(plume.win.locator('body')).toHaveClass(/column-left/)
+  const after = (await plume.win.locator('#column').boundingBox())!
+  const area2 = (await plume.win.locator('#editor-scroll').boundingBox())!
+  expect(Math.abs(after.x - area2.x)).toBeLessThan(2)
+  expect(Math.abs(after.width - narrower.width)).toBeLessThan(2)
+
+  // Retour au centre par le menu.
+  await plume.win.locator('[data-testid=menu-view]').click()
+  await plume.win.locator('[data-testid="cmd-view.columnLeft"]').click()
+  await expect(plume.win.locator('body')).not.toHaveClass(/column-left/)
+  await expect.poll(() => (plume.readPrefs().editor as { columnAlign: unknown }).columnAlign).toBe('center')
+})

@@ -23,8 +23,8 @@
   conservées.
 - **Pensé pour écrire.** Mode focus, mode machine à écrire, colonne de texte réglable à la
   souris, thème sombre lisible.
-- **Local.** Pas de compte, pas de réseau. Réglages dans `%APPDATA%\Plume`, ou à côté de l'exe
-  pour la version portable.
+- **Local.** Pas de compte. Le seul accès réseau est la recherche de mises à jour, que l'on
+  peut désactiver. Réglages dans `%APPDATA%\Plume`, ou à côté de l'exe pour la version portable.
 
 ## Fonctions
 
@@ -56,6 +56,11 @@ Deux poignées encadrent le texte.
 La largeur est mémorisée. On peut aussi la saisir dans **Préférences ▸ Apparence**, en pixels,
 en pourcentage ou en pleine largeur.
 
+**Colonne à gauche.** Par défaut la colonne est centrée. Avec **Préférences ▸ Apparence ▸
+Position de la colonne : à gauche** (ou **Affichage ▸ Colonne à gauche**), elle se cale contre le
+bord gauche avec une petite marge fixe. Seule la poignée droite règle alors la largeur ; l'amener
+au bord droit donne la pleine largeur, et le double-clic fonctionne comme en mode centré.
+
 ### Raccourcis utiles
 
 | Action | Raccourci | Action | Raccourci |
@@ -82,12 +87,26 @@ Compiler (voir plus bas), puis prendre l'un des fichiers de `dist/` :
 Les exécutables ne sont pas signés : Windows SmartScreen peut demander une confirmation au
 premier lancement.
 
-**Mise à jour.** Plume ne se met pas à jour tout seul. Pour passer à une nouvelle version :
+Les versions publiées sont sur la page
+[Releases](https://github.com/zomboky/plume/releases) du dépôt.
 
-- **version installée** : lancer le nouvel installateur, qui remplace l'ancienne version ;
-- **version portable** : remplacer l'exe.
+## Mises à jour
 
-Les réglages sont conservés dans les deux cas.
+**Version installée.** Au démarrage, Plume regarde s'il existe une version plus récente sur les
+[Releases GitHub](https://github.com/zomboky/plume/releases). Si oui, il la télécharge en
+arrière-plan, puis affiche « Version x.y.z prête — Redémarrer pour mettre à jour ». Le bouton
+propose d'enregistrer les documents ouverts, installe la mise à jour et relance Plume. Sans clic,
+elle s'installe à la prochaine fermeture de Plume.
+
+- **Vérifier à la main** : **Aide ▸ Rechercher des mises à jour…**.
+- **Désactiver la vérification au démarrage** : décocher **Préférences ▸ Général ▸ Rechercher
+  les mises à jour au démarrage**.
+- Les erreurs (pas de réseau, par exemple) sont seulement consignées, sans message.
+
+**Version portable.** Elle ne se met pas à jour toute seule. **Aide ▸ Rechercher des mises à
+jour…** indique si une version plus récente existe ; il suffit alors de remplacer l'exe.
+
+Les réglages sont conservés dans tous les cas.
 
 ## Développement
 
@@ -114,8 +133,23 @@ node node_modules/electron/install.js
 | `pnpm icon` | régénère les icônes depuis `app/renderer/src/assets/plume.svg` |
 | `pnpm licenses:file` | régénère `THIRD_PARTY_LICENSES` |
 
+### Publier une version
+
+1. Mettre à jour `version` dans `package.json` (par exemple `0.1.2`), puis commiter et pousser.
+2. Compiler : `pnpm build:win`. `dist/` contient alors `Plume-Setup-<version>.exe`, son
+   `.blockmap`, `latest.yml` et `Plume-<version>-portable.exe`.
+3. Créer la version GitHub avec ces quatre fichiers, sans les renommer (les noms doivent
+   correspondre à `latest.yml`) :
+
+   ```bash
+   gh release create v0.1.2 dist/Plume-Setup-0.1.2.exe dist/Plume-Setup-0.1.2.exe.blockmap dist/latest.yml dist/Plume-0.1.2-portable.exe --title "Plume 0.1.2" --notes-file notes.md
+   ```
+
+Les versions installées détectent la nouvelle version au démarrage suivant. `pnpm build:win`
+ne publie jamais rien lui-même (`--publish never`).
+
 ```
-app/main       processus principal Electron (fichiers, fenêtres, export PDF)
+app/main       processus principal Electron (fichiers, fenêtres, export PDF, mises à jour)
 app/preload    pont sécurisé entre l'interface et le système
 app/renderer   interface : éditeur Milkdown/ProseMirror, CodeMirror 6 pour le code et le mode source
 app/shared     types et préférences communs

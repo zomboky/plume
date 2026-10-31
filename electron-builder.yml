@@ -13,6 +13,10 @@ extraResources:
     to: THIRD_PARTY_LICENSES
 asar: true
 npmRebuild: false
+publish:
+  provider: github
+  owner: zomboky
+  repo: plume
 win:
   icon: build/icon.ico
   target:

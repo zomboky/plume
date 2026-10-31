@@ -28,6 +28,17 @@ export interface Recent {
 
 export type UnsavedChoice = 'save' | 'discard' | 'cancel'
 
+/** État d'une recherche de mise à jour. */
+export type UpdateStatus =
+  | { kind: 'none'; version: string }
+  | { kind: 'downloading'; version: string }
+  | { kind: 'ready'; version: string }
+  /** Version portable (pas de mise à jour automatique) : `version` = version plus récente, s'il y en a une. */
+  | { kind: 'portable'; version?: string }
+  /** Hors application installée (développement, tests). */
+  | { kind: 'dev' }
+  | { kind: 'error'; error: string }
+
 export interface PlumeApi {
   platform: string
   /** Chemin disque d'un fichier glissé ou collé ('' si aucun). */
@@ -68,8 +79,12 @@ export interface PlumeApi {
   // Export
   exportDialog(defaultName: string, ext: 'html' | 'pdf'): Promise<string | null>
   exportPdf(html: string, target: string): Promise<void>
+  // Mises à jour
+  checkForUpdates(): Promise<UpdateStatus>
+  /** Ferme les fenêtres puis installe la version téléchargée et relance Plume. */
+  installUpdate(): void
   // Événements du processus principal
-  on(channel: 'request-close' | 'fullscreen' | 'prefs-changed', cb: (arg: unknown) => void): void
+  on(channel: 'request-close' | 'fullscreen' | 'prefs-changed' | 'update-status', cb: (arg: unknown) => void): void
 }
 
 declare global {

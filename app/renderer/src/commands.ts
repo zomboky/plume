@@ -320,6 +320,12 @@ function buildCommands(app: App): Cmd[] {
     { id: 'view.fullscreen', label: 'view.fullscreen', shortcut: 'F11', run: () => app.toggleFullscreen(), checked: () => app.fullscreen },
     { id: 'view.alwaysOnTop', label: 'view.alwaysOnTop', run: () => app.toggleAlwaysOnTop(), checked: () => app.alwaysOnTop },
     { id: 'view.fullWidth', label: 'view.fullWidth', run: () => app.toggleFullWidth(), checked: () => app.prefs.editor.width === 'full' },
+    {
+      id: 'view.columnLeft',
+      label: 'view.columnLeft',
+      run: () => app.setColumnAlign(app.prefs.editor.columnAlign === 'left' ? 'center' : 'left'),
+      checked: () => app.prefs.editor.columnAlign === 'left'
+    },
     { id: 'view.zoomReset', label: 'view.zoomReset', shortcut: 'Ctrl+Shift+0', run: () => app.zoom(null) },
     { id: 'view.zoomIn', label: 'view.zoomIn', shortcut: 'Ctrl+Shift+=', run: () => app.zoom(0.1) },
     { id: 'view.zoomOut', label: 'view.zoomOut', shortcut: 'Ctrl+Shift+-', run: () => app.zoom(-0.1) },
@@ -338,6 +344,7 @@ function buildCommands(app: App): Cmd[] {
     // Aide
     { id: 'help.markdown', label: 'help.markdown', run: () => openHelp(app, 'markdown') },
     { id: 'help.shortcuts', label: 'help.shortcuts', run: () => openHelp(app, 'shortcuts') },
+    { id: 'help.checkUpdates', label: 'help.checkUpdates', run: () => app.checkForUpdates() },
     {
       id: 'help.about',
       label: 'help.about',

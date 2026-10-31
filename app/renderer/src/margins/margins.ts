@@ -1,6 +1,7 @@
 // Poignées de largeur de la colonne d'écriture.
-// Glisser élargit ou rétrécit la colonne symétriquement ; atteindre le bord = pleine largeur.
-// Double-clic : bascule pleine largeur / largeur précédente. Réglage mémorisé.
+// Colonne centrée : glisser élargit ou rétrécit la colonne symétriquement.
+// Colonne à gauche : seule la poignée droite règle la largeur.
+// Atteindre le bord = pleine largeur. Double-clic : bascule pleine largeur / largeur précédente. Réglage mémorisé.
 import { DEFAULT_WIDTH, MIN_COLUMN_PX, type ColumnWidth } from '@shared/prefs'
 import type { App } from '../app'
 import { t } from '../i18n'
@@ -57,11 +58,12 @@ export class Margins {
     // Largeur utile : la zone de défilement moins sa barre de défilement.
     const usable = this.app.scroller.clientWidth
     const center = ws.left + usable / 2
+    const alignLeft = this.app.prefs.editor.columnAlign === 'left'
     let width: ColumnWidth = this.app.prefs.editor.width
     const move = (ev: PointerEvent) => {
-      const half = Math.abs(ev.clientX - center)
-      const px = Math.round(half * 2)
-      if (px >= usable - SNAP_PX * 2) width = 'full'
+      // À gauche, la colonne part du bord gauche de la zone ; centrée, elle s'étend des deux côtés.
+      const px = Math.round(alignLeft ? ev.clientX - ws.left : Math.abs(ev.clientX - center) * 2)
+      if (px >= usable - SNAP_PX * (alignLeft ? 1 : 2)) width = 'full'
       else width = { value: Math.max(MIN_COLUMN_PX, px), unit: 'px' }
       this.app.setWidth(width, false)
     }

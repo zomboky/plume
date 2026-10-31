@@ -36,6 +36,20 @@ describe('préférences', () => {
     expect(p.editor.width).toBe('full')
     expect(mergePrefs(p, { editor: { width: { value: 600, unit: 'px' } } }).editor.width).toEqual({ value: 600, unit: 'px' })
   })
+  it('position de la colonne : centrée par défaut, à gauche possible', () => {
+    expect(normalizePrefs(undefined).editor.columnAlign).toBe('center')
+    expect(normalizePrefs({ editor: { columnAlign: 'left' } }).editor.columnAlign).toBe('left')
+    expect(normalizePrefs({ editor: { columnAlign: 'right' } }).editor.columnAlign).toBe('center')
+    const p = mergePrefs(DEFAULT_PREFS, { editor: { columnAlign: 'left' } })
+    expect(p.editor.columnAlign).toBe('left')
+    expect(p.editor.width).toEqual(DEFAULT_PREFS.editor.width)
+  })
+  it('mises à jour : vérification au démarrage activée par défaut', () => {
+    expect(normalizePrefs(undefined).updates.checkOnStartup).toBe(true)
+    expect(normalizePrefs({ updates: { checkOnStartup: false } }).updates.checkOnStartup).toBe(false)
+    expect(normalizePrefs({ updates: { checkOnStartup: 'non' } }).updates.checkOnStartup).toBe(true)
+    expect(mergePrefs(DEFAULT_PREFS, { updates: { checkOnStartup: false } }).updates.checkOnStartup).toBe(false)
+  })
 })
 
 describe('raccourcis clavier', () => {

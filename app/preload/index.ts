@@ -46,6 +46,8 @@ const api: PlumeApi = {
   print: (html) => send('print', html),
   exportDialog: (name, ext) => invoke('export:dialog', name, ext),
   exportPdf: (html, target) => invoke('export:pdf', html, target),
+  checkForUpdates: () => invoke('update:check'),
+  installUpdate: () => send('update:install'),
   on: (channel, cb) => {
     ipcRenderer.on(channel, (_e, arg) => cb(arg))
   }

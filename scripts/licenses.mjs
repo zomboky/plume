@@ -12,7 +12,7 @@ const RUNTIME = [
   '@codemirror/language-data', '@codemirror/search', '@codemirror/state', '@codemirror/view',
   '@lezer/highlight', '@milkdown/kit', 'electron', 'fuse.js', 'katex', 'mermaid', 'rehype-katex',
   'rehype-raw', 'rehype-stringify', 'remark-frontmatter', 'remark-gfm', 'remark-math', 'remark-parse',
-  'remark-rehype', 'unified'
+  'remark-rehype', 'unified', 'electron-updater'
 ]
 // Non embarqués : remplacés par un module vide au build (voir electron.vite.config.ts).
 const EXCLUDED = new Set(['elkjs'])

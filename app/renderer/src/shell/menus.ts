@@ -180,6 +180,7 @@ export function topMenus(app: App): TopMenu[] {
         separator(),
         c('view.statusBar'),
         c('view.fullWidth'),
+        c('view.columnLeft'),
         separator(),
         c('view.fullscreen'),
         c('view.alwaysOnTop'),
@@ -199,7 +200,7 @@ export function topMenus(app: App): TopMenu[] {
     {
       id: 'help',
       label: 'menu.help',
-      items: () => [c('help.markdown'), c('help.shortcuts'), separator(), c('help.about')]
+      items: () => [c('help.markdown'), c('help.shortcuts'), separator(), c('help.checkUpdates'), c('help.about')]
     }
   ]
 }

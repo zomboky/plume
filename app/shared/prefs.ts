@@ -5,12 +5,14 @@ export type ThemeId = 'dark-2026' | 'clair' | 'papier'
 export type Locale = 'fr' | 'en'
 export type ColumnWidth = { value: number; unit: 'px' | '%' } | 'full'
 export type SidebarTab = 'files' | 'outline' | 'search'
+export type ColumnAlign = 'center' | 'left'
 
 export interface Prefs {
   locale: Locale
   theme: ThemeId
   editor: {
     width: ColumnWidth
+    columnAlign: ColumnAlign
     fontSize: number
     autoPair: boolean
     lineEnding: 'lf' | 'crlf'
@@ -35,6 +37,9 @@ export interface Prefs {
     focusMode: boolean
     typewriterMode: boolean
   }
+  updates: {
+    checkOnStartup: boolean
+  }
 }
 
 export const DEFAULT_WIDTH: Exclude<ColumnWidth, 'full'> = { value: 860, unit: 'px' }
@@ -42,10 +47,11 @@ export const DEFAULT_WIDTH: Exclude<ColumnWidth, 'full'> = { value: 860, unit: '
 export const DEFAULT_PREFS: Prefs = {
   locale: 'fr',
   theme: 'dark-2026',
-  editor: { width: DEFAULT_WIDTH, fontSize: 14, autoPair: true, lineEnding: 'lf', spellcheck: false },
+  editor: { width: DEFAULT_WIDTH, columnAlign: 'center', fontSize: 14, autoPair: true, lineEnding: 'lf', spellcheck: false },
   markdown: { inlineMath: false, codeLineNumbers: false, codeWrap: true },
   files: { autoSave: false, reopenLast: true, showHidden: false, onlyMarkdown: true },
-  view: { sidebar: true, sidebarTab: 'files', statusBar: true, zoom: 1, focusMode: false, typewriterMode: false }
+  view: { sidebar: true, sidebarTab: 'files', statusBar: true, zoom: 1, focusMode: false, typewriterMode: false },
+  updates: { checkOnStartup: true }
 }
 
 export const THEMES: ThemeId[] = ['dark-2026', 'clair', 'papier']
@@ -77,11 +83,13 @@ export function normalizePrefs(raw: unknown): Prefs {
   const md = isObj(r.markdown) ? r.markdown : {}
   const fi = isObj(r.files) ? r.files : {}
   const vw = isObj(r.view) ? r.view : {}
+  const up = isObj(r.updates) ? r.updates : {}
   return {
     locale: pick(r.locale, d.locale, oneOf('fr', 'en')),
     theme: pick(r.theme, d.theme, oneOf(...THEMES)),
     editor: {
       width: pick(ed.width, d.editor.width, validWidth),
+      columnAlign: pick(ed.columnAlign, d.editor.columnAlign, oneOf('center', 'left')),
       fontSize: pick(ed.fontSize, d.editor.fontSize, num(8, 40)),
       autoPair: pick(ed.autoPair, d.editor.autoPair, bool),
       lineEnding: pick(ed.lineEnding, d.editor.lineEnding, oneOf('lf', 'crlf')),
@@ -105,6 +113,9 @@ export function normalizePrefs(raw: unknown): Prefs {
       zoom: pick(vw.zoom, d.view.zoom, num(0.5, 3)),
       focusMode: pick(vw.focusMode, d.view.focusMode, bool),
       typewriterMode: pick(vw.typewriterMode, d.view.typewriterMode, bool)
+    },
+    updates: {
+      checkOnStartup: pick(up.checkOnStartup, d.updates.checkOnStartup, bool)
     }
   }
 }

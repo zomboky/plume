@@ -114,6 +114,7 @@ export const fr = {
   'view.zoomIn': 'Zoom avant',
   'view.zoomOut': 'Zoom arrière',
   'view.fullWidth': 'Pleine largeur',
+  'view.columnLeft': 'Colonne à gauche',
   'view.devtools': 'Outils de développement',
 
   'theme.dark-2026': 'Dark 2026',
@@ -122,6 +123,7 @@ export const fr = {
 
   'help.markdown': 'Référence Markdown',
   'help.shortcuts': 'Raccourcis clavier',
+  'help.checkUpdates': 'Rechercher des mises à jour…',
   'help.about': 'À propos de Plume',
   'help.aboutDetail': 'Éditeur Markdown WYSIWYG. Version {version}.\nLogiciel libre sous licence MIT.',
 
@@ -183,6 +185,8 @@ export const fr = {
   'prefs.cat.appearance': 'Apparence',
   'prefs.locale': "Langue de l'interface",
   'prefs.localeHint': "Prise en compte au prochain démarrage de la fenêtre.",
+  'prefs.checkUpdates': 'Rechercher les mises à jour au démarrage',
+  'prefs.checkUpdatesHint': 'Télécharge la nouvelle version en arrière-plan. Version portable : mise à jour manuelle.',
   'prefs.autoSave': 'Enregistrement automatique',
   'prefs.reopenLast': 'Rouvrir le dernier fichier au démarrage',
   'prefs.showHidden': "Afficher les fichiers cachés dans l'arborescence",
@@ -199,6 +203,10 @@ export const fr = {
   'prefs.width': "Largeur de la colonne d'écriture",
   'prefs.widthFull': 'Pleine largeur',
   'prefs.widthHint': 'Glissez les poignées au bord de la colonne ; double-clic : pleine largeur.',
+  'prefs.columnAlign': 'Position de la colonne',
+  'prefs.columnAlignCenter': 'Centrée',
+  'prefs.columnAlignLeft': 'À gauche',
+  'prefs.columnAlignHint': 'À gauche : seule la poignée droite règle la largeur.',
   'prefs.statusBar': "Afficher la barre d'état",
   'prefs.zoom': 'Zoom',
   'prefs.close': 'Fermer',
@@ -211,7 +219,18 @@ export const fr = {
   'msg.exported': 'Export terminé : {path}',
   'msg.properties': '{name}\n\nEmplacement : {path}\nTaille : {size} octets\nModifié : {mtime}',
   'msg.dismiss': 'Fermer',
-  'msg.trashConfirm': 'Mettre « {name} » à la corbeille ?'
+  'msg.trashConfirm': 'Mettre « {name} » à la corbeille ?',
+
+  'update.ready': 'Version {version} prête',
+  'update.restart': 'Redémarrer pour mettre à jour',
+  'update.checking': 'Recherche de mises à jour…',
+  'update.none': 'Plume est à jour (version {version}).',
+  'update.downloading': 'Version {version} disponible : téléchargement en cours…',
+  'update.error': 'Impossible de rechercher les mises à jour : {error}',
+  'update.portable': 'Plume est à jour (version {version}). La version portable ne se met pas à jour automatiquement.',
+  'update.portableAvailable': 'Version {version} disponible. La version portable ne se met pas à jour automatiquement : téléchargez-la sur la page des versions.',
+  'update.dev': 'Les mises à jour ne sont disponibles que dans la version installée.',
+  'update.releases': 'Page des versions'
 } as const
 
 export type MessageKey = keyof typeof fr

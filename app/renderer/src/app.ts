@@ -1,6 +1,6 @@
 // État de la fenêtre et opérations sur le document (ouvrir, enregistrer, modes).
-import type { OpenedFile, Recent } from '@shared/api'
-import { DEFAULT_WIDTH, type ColumnWidth, type DeepPartial, type Prefs, type ThemeId } from '@shared/prefs'
+import type { OpenedFile, Recent, UpdateStatus } from '@shared/api'
+import { DEFAULT_WIDTH, type ColumnAlign, type ColumnWidth, type DeepPartial, type Prefs, type ThemeId } from '@shared/prefs'
 import { WysiwygEditor } from './editor/editor'
 import { docContext } from './editor/doc-context'
 import { applyCodeOptions, refreshPreviews } from './editor/views/code-view'
@@ -116,6 +116,7 @@ export class App {
       this.prefs = p as Prefs
       this.applyPrefs()
     })
+    window.plume.on('update-status', (s) => this.showUpdateStatus(s as UpdateStatus))
     this.ready = true
     this.updateTitle()
     this.statusbar.update()
@@ -441,6 +442,38 @@ export class App {
     void this.updatePrefs({ view: { zoom: z } })
   }
 
+  // ---------- Mises à jour ----------
+
+  async checkForUpdates(): Promise<void> {
+    this.notice.show(t('update.checking'), 0)
+    this.showUpdateStatus(await window.plume.checkForUpdates())
+  }
+
+  showUpdateStatus(s: UpdateStatus): void {
+    const releases = { label: t('update.releases'), run: () => window.plume.openExternal(RELEASES_URL) }
+    switch (s.kind) {
+      case 'ready':
+        this.notice.show(`${t('update.ready', { version: s.version })} —`, 0, { label: t('update.restart'), run: () => window.plume.installUpdate() })
+        break
+      case 'downloading':
+        this.notice.show(t('update.downloading', { version: s.version }), 8000)
+        break
+      case 'none':
+        this.notice.show(t('update.none', { version: s.version }))
+        break
+      case 'portable':
+        if (s.version) this.notice.show(t('update.portableAvailable', { version: s.version }), 0, releases)
+        else this.notice.show(t('update.portable', { version: __APP_VERSION__ }), 8000)
+        break
+      case 'dev':
+        this.notice.show(t('update.dev'))
+        break
+      case 'error':
+        this.notice.show(t('update.error', { error: s.error }), 8000)
+        break
+    }
+  }
+
   // ---------- Préférences ----------
 
   async updatePrefs(patch: DeepPartial<Prefs>): Promise<void> {
@@ -462,10 +495,15 @@ export class App {
     this.setWidth(this.prefs.editor.width === 'full' ? (this.margins.lastWidth ?? DEFAULT_WIDTH) : 'full')
   }
 
+  setColumnAlign(columnAlign: ColumnAlign): void {
+    void this.updatePrefs({ editor: { columnAlign } })
+  }
+
   applyWidth(): void {
     const w = this.prefs.editor.width
     this.column.style.maxWidth = w === 'full' ? 'none' : `${w.value}${w.unit}`
     document.body.classList.toggle('is-full-width', w === 'full')
+    document.body.classList.toggle('column-left', this.prefs.editor.columnAlign === 'left')
     this.margins?.layout()
   }
 
@@ -489,6 +527,8 @@ export class App {
     if (p.view.typewriterMode) this.centerCaret()
   }
 }
+
+const RELEASES_URL = 'https://github.com/zomboky/plume/releases/latest'
 
 export function slugify(text: string): string {
   return text
